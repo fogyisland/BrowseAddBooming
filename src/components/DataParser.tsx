@@ -1,10 +1,12 @@
 import { useState, useRef } from 'react'
+import { useLanguage } from '../i18n'
 
 interface DataParserProps {
   onBack: () => void
 }
 
 export default function DataParser({ onBack }: DataParserProps) {
+  const { t } = useLanguage()
   const [data, setData] = useState<any>(null)
   const [fileName, setFileName] = useState('')
   const [fileType, setFileType] = useState<'json' | 'xml' | null>(null)
@@ -19,7 +21,7 @@ export default function DataParser({ onBack }: DataParserProps) {
       const parsed = JSON.parse(content)
       return parsed
     } catch (e) {
-      throw new Error('JSON 解析失败: ' + (e as Error).message)
+      throw new Error(t.jsonParseError || 'JSON 解析失败')
     }
   }
 
@@ -31,12 +33,12 @@ export default function DataParser({ onBack }: DataParserProps) {
 
       const parseError = xmlDoc.querySelector('parsererror')
       if (parseError) {
-        throw new Error('XML 解析失败: 无效的 XML 格式')
+        throw new Error(t.xmlParseError || 'XML 解析失败')
       }
 
       return xmlDoc
     } catch (e) {
-      throw new Error('XML 解析失败: ' + (e as Error).message)
+      throw new Error(t.xmlParseError || 'XML 解析失败')
     }
   }
 
@@ -45,16 +47,15 @@ export default function DataParser({ onBack }: DataParserProps) {
     const result: any = {}
 
     const parseNode = (node: any) => {
-      if (node.nodeType === 3) { // 文本节点
+      if (node.nodeType === 3) {
         const text = node.textContent?.trim()
         if (text) return text
         return null
       }
 
-      if (node.nodeType === 1) { // 元素节点
+      if (node.nodeType === 1) {
         const obj: any = {}
 
-        // 处理属性
         if (node.attributes) {
           for (let i = 0; i < node.attributes.length; i++) {
             const attr = node.attributes[i]
@@ -62,7 +63,6 @@ export default function DataParser({ onBack }: DataParserProps) {
           }
         }
 
-        // 处理子节点
         const children = Array.from(node.childNodes)
         let textContent = ''
 
@@ -193,7 +193,7 @@ export default function DataParser({ onBack }: DataParserProps) {
         setParsedRows(rows)
         setHeaders(extractHeaders(rows))
       } else {
-        setError('不支持的文件格式，请上传 JSON 或 XML 文件')
+        setError(t.unsupportedFormat || '不支持的文件格式')
       }
     } catch (e) {
       setError((e as Error).message)
@@ -228,7 +228,6 @@ export default function DataParser({ onBack }: DataParserProps) {
   const downloadXlsx = async () => {
     if (parsedRows.length === 0) return
 
-    // 动态导入 xlsx
     const XLSX = await import('xlsx')
 
     const worksheet = XLSX.utils.json_to_sheet(parsedRows, {
@@ -264,7 +263,7 @@ export default function DataParser({ onBack }: DataParserProps) {
     <div className="p-4">
       <div className="flex items-center gap-3 mb-4">
         <button onClick={onBack} className="text-gray-500 hover:text-gray-700 text-xl">←</button>
-        <h2 className="text-lg font-semibold flex-1">数据解析器</h2>
+        <h2 className="text-lg font-semibold flex-1">{t.dataParser}</h2>
       </div>
 
       {/* 文件上传 */}
@@ -281,8 +280,8 @@ export default function DataParser({ onBack }: DataParserProps) {
           className="w-full p-6 border-2 border-dashed border-blue-300 hover:border-blue-500 rounded-lg bg-blue-50 hover:bg-blue-100 transition-colors"
         >
           <div className="text-blue-500 text-2xl mb-2">📁</div>
-          <div className="text-blue-700 font-medium">点击上传 JSON 或 XML 文件</div>
-          <div className="text-gray-500 text-sm mt-1">支持拖拽文件到此处</div>
+          <div className="text-blue-700 font-medium">{t.uploadFile || '点击上传 JSON 或 XML 文件'}</div>
+          <div className="text-gray-500 text-sm mt-1">{t.dragDropHint || '支持拖拽文件到此处'}</div>
         </button>
       </div>
 
@@ -304,7 +303,7 @@ export default function DataParser({ onBack }: DataParserProps) {
               </span>
             </div>
             <div className="text-sm text-gray-500">
-              {parsedRows.length} 行, {headers.length} 列
+              {parsedRows.length} {t.rows || '行'}, {headers.length} {t.columns || '列'}
             </div>
           </div>
         </div>
@@ -317,7 +316,7 @@ export default function DataParser({ onBack }: DataParserProps) {
             onClick={copyToClipboard}
             className="px-3 py-1.5 bg-gray-500 hover:bg-gray-600 text-white text-sm rounded"
           >
-            📋 复制
+            📋 {t.copy || '复制'}
           </button>
           <button
             onClick={downloadJson}
@@ -344,7 +343,7 @@ export default function DataParser({ onBack }: DataParserProps) {
       {parsedRows.length > 0 && (
         <div className="border border-gray-200 rounded-lg overflow-hidden">
           <div className="bg-gray-100 px-3 py-2 border-b border-gray-200">
-            <span className="font-medium text-gray-700">数据预览</span>
+            <span className="font-medium text-gray-700">{t.dataPreview || '数据预览'}</span>
           </div>
           <div className="overflow-auto max-h-[400px]">
             <table className="w-full text-sm">
@@ -358,7 +357,7 @@ export default function DataParser({ onBack }: DataParserProps) {
                   ))}
                   {headers.length > 10 && (
                     <th className="px-3 py-2 text-left font-medium text-gray-400 border-b">
-                      +{headers.length - 10} 列
+                      +{headers.length - 10} {t.moreColumns || '列'}
                     </th>
                   )}
                 </tr>
@@ -383,7 +382,7 @@ export default function DataParser({ onBack }: DataParserProps) {
             </table>
             {parsedRows.length > 100 && (
               <div className="p-2 text-center text-gray-500 text-sm bg-gray-50">
-                显示前 100 条，共 {parsedRows.length} 条
+                {t.showingFirst100 || `显示前 100 条，共 ${parsedRows.length} 条`}
               </div>
             )}
           </div>
@@ -393,12 +392,12 @@ export default function DataParser({ onBack }: DataParserProps) {
       {/* 说明 */}
       {!data && !error && (
         <div className="mt-4 p-4 bg-gray-50 rounded-lg">
-          <h3 className="font-medium text-gray-700 mb-2">功能说明</h3>
+          <h3 className="font-medium text-gray-700 mb-2">{t.features || '功能说明'}</h3>
           <ul className="text-xs text-gray-600 space-y-1">
-            <li>• 支持解析 JSON 和 XML 格式文件</li>
-            <li>• 自动提取数据并展平为表格</li>
-            <li>• 支持下载为 CSV、XLSX、JSON 格式</li>
-            <li>• 支持复制解析后的数据到剪贴板</li>
+            <li>• {t.featureJsonXml || '支持解析 JSON 和 XML 格式文件'}</li>
+            <li>• {t.featureFlatten || '自动提取数据并展平为表格'}</li>
+            <li>• {t.featureDownload || '支持下载为 CSV、XLSX、JSON 格式'}</li>
+            <li>• {t.featureCopy || '支持复制解析后的数据到剪贴板'}</li>
           </ul>
         </div>
       )}

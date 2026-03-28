@@ -120,6 +120,22 @@ export interface Translations {
   whoisLookupDesc: string
   dataParser: string
   dataParserDesc: string
+  uploadFile: string
+  dragDropHint: string
+  rows: string
+  columns: string
+  dataPreview: string
+  moreColumns: string
+  showingFirst100: string
+  features: string
+  featureJsonXml: string
+  featureFlatten: string
+  featureDownload: string
+  featureCopy: string
+  jsonParseError: string
+  xmlParseError: string
+  unsupportedFormat: string
+  copy: string
 
   // 内容提取
   contentExtractor: string
@@ -259,6 +275,22 @@ export const translations: Record<Language, Translations> = {
     whoisLookupDesc: '查询域名注册详细信息',
     dataParser: '数据解析器',
     dataParserDesc: 'JSON/XML解析与转换',
+    uploadFile: '点击上传 JSON 或 XML 文件',
+    dragDropHint: '支持拖拽文件到此处',
+    rows: '行',
+    columns: '列',
+    dataPreview: '数据预览',
+    moreColumns: '列',
+    showingFirst100: '显示前 100 条，共 {count} 条',
+    features: '功能说明',
+    featureJsonXml: '支持解析 JSON 和 XML 格式文件',
+    featureFlatten: '自动提取数据并展平为表格',
+    featureDownload: '支持下载为 CSV、XLSX、JSON 格式',
+    featureCopy: '支持复制解析后的数据到剪贴板',
+    jsonParseError: 'JSON 解析失败',
+    xmlParseError: 'XML 解析失败',
+    unsupportedFormat: '不支持的文件格式',
+    copy: '复制',
 
     // 内容提取
     contentExtractor: '内容提取',
@@ -397,6 +429,22 @@ export const translations: Record<Language, Translations> = {
     whoisLookupDesc: '查詢網域註冊詳細資訊',
     dataParser: '數據解析器',
     dataParserDesc: 'JSON/XML解析與轉換',
+    uploadFile: '點擊上傳 JSON 或 XML 文件',
+    dragDropHint: '支援拖放文件到此處',
+    rows: '列',
+    columns: '欄',
+    dataPreview: '數據預覽',
+    moreColumns: '欄',
+    showingFirst100: '顯示前 100 條，共 {count} 條',
+    features: '功能說明',
+    featureJsonXml: '支援解析 JSON 和 XML 格式文件',
+    featureFlatten: '自動提取數據並展平為表格',
+    featureDownload: '支援下載為 CSV、XLSX、JSON 格式',
+    featureCopy: '支援複製解析後的數據到剪貼板',
+    jsonParseError: 'JSON 解析失敗',
+    xmlParseError: 'XML 解析失敗',
+    unsupportedFormat: '不支援的文件格式',
+    copy: '複製',
 
     // 內容提取
     contentExtractor: '內容提取',
@@ -535,6 +583,22 @@ export const translations: Record<Language, Translations> = {
     whoisLookupDesc: 'Query detailed domain registration info',
     dataParser: 'Data Parser',
     dataParserDesc: 'JSON/XML parsing and conversion',
+    uploadFile: 'Click to upload JSON or XML file',
+    dragDropHint: 'Drag and drop files here',
+    rows: 'rows',
+    columns: 'columns',
+    dataPreview: 'Data Preview',
+    moreColumns: 'more',
+    showingFirst100: 'Showing first 100 of {count} rows',
+    features: 'Features',
+    featureJsonXml: 'Support parsing JSON and XML files',
+    featureFlatten: 'Auto extract and flatten data to table',
+    featureDownload: 'Download as CSV, XLSX, or JSON',
+    featureCopy: 'Copy parsed data to clipboard',
+    jsonParseError: 'JSON parse failed',
+    xmlParseError: 'XML parse failed',
+    unsupportedFormat: 'Unsupported file format',
+    copy: 'Copy',
 
     // Content Extraction
     contentExtractor: 'Content Extractor',
@@ -673,6 +737,22 @@ export const translations: Record<Language, Translations> = {
     whoisLookupDesc: "Requêter les infos d'enregistrement du domaine",
     dataParser: 'Analyseur de données',
     dataParserDesc: 'Analyse et conversion JSON/XML',
+    uploadFile: 'Cliquez pour télécharger un fichier JSON ou XML',
+    dragDropHint: 'Glisser-déposer des fichiers ici',
+    rows: 'lignes',
+    columns: 'colonnes',
+    dataPreview: "Aperçu des données",
+    moreColumns: 'plus',
+    showingFirst100: 'Affichage des 100 premières lignes sur {count}',
+    features: 'Fonctionnalités',
+    featureJsonXml: 'Support analyse fichiers JSON et XML',
+    featureFlatten: 'Extraction et mise à plat auto des données',
+    featureDownload: 'Télécharger en CSV, XLSX ou JSON',
+    featureCopy: "Copier les données analysées",
+    jsonParseError: 'Échec analyse JSON',
+    xmlParseError: 'Échec analyse XML',
+    unsupportedFormat: 'Format non pris en charge',
+    copy: 'Copier',
 
     // Extraction contenu
     contentExtractor: 'Extracteur contenu',
@@ -811,6 +891,22 @@ export const translations: Record<Language, Translations> = {
     whoisLookupDesc: 'Consultar info detallada de registro',
     dataParser: 'Analizador de datos',
     dataParserDesc: 'Análisis y conversión JSON/XML',
+    uploadFile: 'Clic para subir archivo JSON o XML',
+    dragDropHint: 'Arrastrar y soltar archivos aquí',
+    rows: 'filas',
+    columns: 'columnas',
+    dataPreview: 'Vista previa de datos',
+    moreColumns: 'más',
+    showingFirst100: 'Mostrando primeras 100 de {count} filas',
+    features: 'Características',
+    featureJsonXml: 'Soporte análisis archivos JSON y XML',
+    featureFlatten: 'Extracción automática y despliegue de datos',
+    featureDownload: 'Descargar como CSV, XLSX o JSON',
+    featureCopy: 'Copiar datos analizados al portapapeles',
+    jsonParseError: 'Error al analizar JSON',
+    xmlParseError: 'Error al analizar XML',
+    unsupportedFormat: 'Formato no soportado',
+    copy: 'Copiar',
 
     // Extracción contenido
     contentExtractor: 'Extractor contenido',
