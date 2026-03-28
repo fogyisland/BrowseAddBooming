@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react'
 import { useLanguage } from '../i18n'
+import { FileText, PenTool, Sparkles, Link2, ClipboardList, Globe, Search, Shield, Lock, Mail, Database, BarChart3, Zap, X, Package, Microscope } from 'lucide-react'
 import Settings from './Settings'
 import PageAnalysis from './PageAnalysis'
 import TextOptimizer from './TextOptimizer'
@@ -140,7 +141,7 @@ export default function SidePanel({
                 onClick={onClose}
                 className="p-2 hover:bg-gray-100 rounded-lg"
               >
-                ✕
+                <X className="w-5 h-5 text-gray-600" />
               </button>
             </div>
 
@@ -150,7 +151,7 @@ export default function SidePanel({
                 className="w-full p-4 bg-blue-50 hover:bg-blue-100 rounded-lg transition-colors flex items-center gap-3"
               >
                 <div className="w-10 h-10 bg-blue-500 rounded-lg flex items-center justify-center">
-                  <span className="text-white">📄</span>
+                  <FileText className="w-5 h-5 text-white" />
                 </div>
                 <div className="text-left">
                   <div className="font-medium text-gray-800">{t.analyzePage}</div>
@@ -163,7 +164,7 @@ export default function SidePanel({
                 className="w-full p-4 bg-purple-50 hover:bg-purple-100 rounded-lg transition-colors flex items-center gap-3"
               >
                 <div className="w-10 h-10 bg-purple-500 rounded-lg flex items-center justify-center">
-                  <span className="text-white">✏️</span>
+                  <PenTool className="w-5 h-5 text-white" />
                 </div>
                 <div className="text-left">
                   <div className="font-medium text-gray-800">{t.optimizeText}</div>
@@ -176,7 +177,7 @@ export default function SidePanel({
                 className="w-full p-4 bg-green-50 hover:bg-green-100 rounded-lg transition-colors flex items-center gap-3"
               >
                 <div className="w-10 h-10 bg-green-500 rounded-lg flex items-center justify-center">
-                  <span className="text-white">✨</span>
+                  <Sparkles className="w-5 h-5 text-white" />
                 </div>
                 <div className="text-left">
                   <div className="font-medium text-gray-800">{t.generateText}</div>
@@ -189,7 +190,7 @@ export default function SidePanel({
                 className="w-full p-4 bg-green-50 hover:bg-green-100 rounded-lg transition-colors flex items-center gap-3"
               >
                 <div className="w-10 h-10 bg-green-500 rounded-lg flex items-center justify-center">
-                  <span className="text-white">🌐</span>
+                  <Globe className="w-5 h-5 text-white" />
                 </div>
                 <div className="text-left">
                   <div className="font-medium text-gray-800">{t.networkAnalysis}</div>
@@ -202,7 +203,7 @@ export default function SidePanel({
                 className="w-full p-4 bg-amber-50 hover:bg-amber-100 rounded-lg transition-colors flex items-center gap-3"
               >
                 <div className="w-10 h-10 bg-amber-500 rounded-lg flex items-center justify-center">
-                  <span className="text-white">📦</span>
+                  <Package className="w-5 h-5 text-white" />
                 </div>
                 <div className="text-left">
                   <div className="font-medium text-gray-800">{t.resourceAnalysis}</div>
@@ -215,11 +216,11 @@ export default function SidePanel({
                 className="w-full p-4 bg-pink-50 hover:bg-pink-100 rounded-lg transition-colors flex items-center gap-3"
               >
                 <div className="w-10 h-10 bg-pink-500 rounded-lg flex items-center justify-center">
-                  <span className="text-white">🔗</span>
+                  <Link2 className="w-5 h-5 text-white" />
                 </div>
                 <div className="text-left">
-                  <div className="font-medium text-gray-800">外链分析</div>
-                  <div className="text-sm text-gray-500">分析页面外部链接</div>
+                  <div className="font-medium text-gray-800">{t.linkAnalyzer}</div>
+                  <div className="text-sm text-gray-500">{t.linkAnalyzerDesc}</div>
                 </div>
               </button>
 
@@ -228,11 +229,11 @@ export default function SidePanel({
                 className="w-full p-4 bg-cyan-50 hover:bg-cyan-100 rounded-lg transition-colors flex items-center gap-3"
               >
                 <div className="w-10 h-10 bg-cyan-500 rounded-lg flex items-center justify-center">
-                  <span className="text-white">📋</span>
+                  <ClipboardList className="w-5 h-5 text-white" />
                 </div>
                 <div className="text-left">
-                  <div className="font-medium text-gray-800">页面信息</div>
-                  <div className="text-sm text-gray-500">获取页面详细信息</div>
+                  <div className="font-medium text-gray-800">{t.pageInfo}</div>
+                  <div className="text-sm text-gray-500">{t.pageInfoDesc}</div>
                 </div>
               </button>
 
@@ -241,7 +242,7 @@ export default function SidePanel({
                 className="w-full p-4 bg-orange-50 hover:bg-orange-100 rounded-lg transition-colors flex items-center gap-3"
               >
                 <div className="w-10 h-10 bg-orange-500 rounded-lg flex items-center justify-center">
-                  <span className="text-white">🕸️</span>
+                  <Globe className="w-5 h-5 text-white" />
                 </div>
                 <div className="text-left">
                   <div className="font-medium text-gray-800">{t.contentExtractor}</div>
@@ -254,7 +255,7 @@ export default function SidePanel({
                 className="w-full p-4 bg-red-50 hover:bg-red-100 rounded-lg transition-colors flex items-center gap-3"
               >
                 <div className="w-10 h-10 bg-red-500 rounded-lg flex items-center justify-center">
-                  <span className="text-white">🎬</span>
+                  <Zap className="w-5 h-5 text-white" />
                 </div>
                 <div className="text-left">
                   <div className="font-medium text-gray-800">{t.videoSniffer}</div>
@@ -267,7 +268,7 @@ export default function SidePanel({
                 className="w-full p-4 bg-cyan-50 hover:bg-cyan-100 rounded-lg transition-colors flex items-center gap-3"
               >
                 <div className="w-10 h-10 bg-cyan-500 rounded-lg flex items-center justify-center">
-                  <span className="text-white">🔍</span>
+                  <Search className="w-5 h-5 text-white" />
                 </div>
                 <div className="text-left">
                   <div className="font-medium text-gray-800">{t.adminSniffer}</div>
@@ -280,7 +281,7 @@ export default function SidePanel({
                 className="w-full p-4 bg-red-50 hover:bg-red-100 rounded-lg transition-colors flex items-center gap-3"
               >
                 <div className="w-10 h-10 bg-red-500 rounded-lg flex items-center justify-center">
-                  <span className="text-white">🛡️</span>
+                  <Shield className="w-5 h-5 text-white" />
                 </div>
                 <div className="text-left">
                   <div className="font-medium text-gray-800">{t.securityAnalyzer}</div>
@@ -293,7 +294,7 @@ export default function SidePanel({
                 className="w-full p-4 bg-orange-50 hover:bg-orange-100 rounded-lg transition-colors flex items-center gap-3"
               >
                 <div className="w-10 h-10 bg-orange-500 rounded-lg flex items-center justify-center">
-                  <span className="text-white">🔓</span>
+                  <Lock className="w-5 h-5 text-white" />
                 </div>
                 <div className="text-left">
                   <div className="font-medium text-gray-800">{t.urlDecoder}</div>
@@ -306,7 +307,7 @@ export default function SidePanel({
                 className="w-full p-4 bg-teal-50 hover:bg-teal-100 rounded-lg transition-colors flex items-center gap-3"
               >
                 <div className="w-10 h-10 bg-teal-500 rounded-lg flex items-center justify-center">
-                  <span className="text-white">📧</span>
+                  <Mail className="w-5 h-5 text-white" />
                 </div>
                 <div className="text-left">
                   <div className="font-medium text-gray-800">{t.emailHeaderParser}</div>
@@ -319,7 +320,7 @@ export default function SidePanel({
                 className="w-full p-4 bg-indigo-50 hover:bg-indigo-100 rounded-lg transition-colors flex items-center gap-3"
               >
                 <div className="w-10 h-10 bg-indigo-500 rounded-lg flex items-center justify-center">
-                  <span className="text-white">🔍</span>
+                  <Microscope className="w-5 h-5 text-white" />
                 </div>
                 <div className="text-left">
                   <div className="font-medium text-gray-800">{t.domainLookup}</div>
@@ -332,7 +333,7 @@ export default function SidePanel({
                 className="w-full p-4 bg-teal-50 hover:bg-teal-100 rounded-lg transition-colors flex items-center gap-3"
               >
                 <div className="w-10 h-10 bg-teal-500 rounded-lg flex items-center justify-center">
-                  <span className="text-white">📋</span>
+                  <Database className="w-5 h-5 text-white" />
                 </div>
                 <div className="text-left">
                   <div className="font-medium text-gray-800">{t.whoisLookup}</div>
@@ -345,7 +346,7 @@ export default function SidePanel({
                 className="w-full p-4 bg-amber-50 hover:bg-amber-100 rounded-lg transition-colors flex items-center gap-3"
               >
                 <div className="w-10 h-10 bg-amber-500 rounded-lg flex items-center justify-center">
-                  <span className="text-white">📊</span>
+                  <BarChart3 className="w-5 h-5 text-white" />
                 </div>
                 <div className="text-left">
                   <div className="font-medium text-gray-800">{t.dataParser}</div>

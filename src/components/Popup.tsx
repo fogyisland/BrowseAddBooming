@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { useLanguage } from '../i18n'
+import { FileText, PenTool, Sparkles, Link2, ClipboardList, Globe, Search, Shield, Lock, Mail, Database, BarChart3, PanelLeft, Settings, Zap } from 'lucide-react'
 
 interface PopupProps {
   onAnalyzePage: () => void
@@ -55,8 +56,8 @@ export default function Popup({ onAnalyzePage, onOptimizeText, onGenerateText, o
       {/* 顶部标题栏：图标 + 标题 + 侧边栏开关 */}
       <div className="flex items-center justify-between mb-6">
         <div className="flex items-center gap-3">
-          <div className="w-10 h-10 bg-gradient-to-br from-blue-500 to-purple-600 rounded-lg flex items-center justify-center">
-            <span className="text-white text-lg">🤖</span>
+          <div className="w-12 h-12 bg-gradient-to-br from-pink-400 to-orange-400 rounded-full flex items-center justify-center overflow-hidden">
+            <span className="text-[30px] leading-none">👶</span>
           </div>
           <div>
             <h1 className="text-lg font-semibold text-gray-800">{t.aiAssistant}</h1>
@@ -64,7 +65,7 @@ export default function Popup({ onAnalyzePage, onOptimizeText, onGenerateText, o
           </div>
         </div>
         {/* 侧边栏开关 Toggle */}
-        <div className="flex items-center gap-4">
+        <div className="flex items-center gap-3">
           {/* 快捷键提示 */}
           <div className="hidden sm:flex items-center gap-2 text-xs text-gray-400">
             <span className="px-1.5 py-0.5 bg-gray-100 rounded">Ctrl+Shift+A</span>
@@ -75,13 +76,14 @@ export default function Popup({ onAnalyzePage, onOptimizeText, onGenerateText, o
             className="p-2 hover:bg-gray-100 rounded-lg transition-colors"
             title={t.settings}
           >
-            <span className="text-gray-600">⚙️</span>
+            <Settings className="w-6 h-6 text-gray-600" />
           </button>
           <button
             onClick={handleToggleSidePanel}
             className="flex items-center gap-2 group px-3 py-1.5 rounded-lg hover:bg-gray-100 transition-colors"
-            title={sidePanelEnabled ? '关闭侧边栏' : '开启侧边栏'}
+            title={sidePanelEnabled ? t.closeSidebar : t.openSidebar}
           >
+            <PanelLeft className="w-5 h-5 text-gray-600" />
             <span className="text-sm font-medium text-gray-600">{t.sidebarMode}</span>
             <div
               className={`relative w-10 h-5 rounded-full transition-colors ${
@@ -103,8 +105,8 @@ export default function Popup({ onAnalyzePage, onOptimizeText, onGenerateText, o
           onClick={onAnalyzePage}
           className="w-full p-4 bg-blue-50 hover:bg-blue-100 rounded-lg transition-colors flex items-center gap-3"
         >
-          <div className="w-10 h-10 bg-blue-500 rounded-lg flex items-center justify-center">
-            <span className="text-white">📄</span>
+          <div className="w-12 h-12 bg-blue-500 rounded-lg flex items-center justify-center">
+            <FileText className="w-6 h-6 text-white" />
           </div>
           <div className="text-left">
             <div className="font-medium text-gray-800">{t.analyzePage}</div>
@@ -116,8 +118,8 @@ export default function Popup({ onAnalyzePage, onOptimizeText, onGenerateText, o
           onClick={onOptimizeText}
           className="w-full p-4 bg-purple-50 hover:bg-purple-100 rounded-lg transition-colors flex items-center gap-3"
         >
-          <div className="w-10 h-10 bg-purple-500 rounded-lg flex items-center justify-center">
-            <span className="text-white">✏️</span>
+          <div className="w-12 h-12 bg-purple-500 rounded-lg flex items-center justify-center">
+            <PenTool className="w-6 h-6 text-white" />
           </div>
           <div className="text-left">
             <div className="font-medium text-gray-800">{t.optimizeText}</div>
@@ -129,8 +131,8 @@ export default function Popup({ onAnalyzePage, onOptimizeText, onGenerateText, o
           onClick={onGenerateText}
           className="w-full p-4 bg-green-50 hover:bg-green-100 rounded-lg transition-colors flex items-center gap-3"
         >
-          <div className="w-10 h-10 bg-green-500 rounded-lg flex items-center justify-center">
-            <span className="text-white">✨</span>
+          <div className="w-12 h-12 bg-green-500 rounded-lg flex items-center justify-center">
+            <Sparkles className="w-6 h-6 text-white" />
           </div>
           <div className="text-left">
             <div className="font-medium text-gray-800">{t.generateText}</div>
@@ -148,12 +150,12 @@ export default function Popup({ onAnalyzePage, onOptimizeText, onGenerateText, o
           }}
           className="w-full p-4 bg-pink-50 hover:bg-pink-100 rounded-lg transition-colors flex items-center gap-3"
         >
-          <div className="w-10 h-10 bg-pink-500 rounded-lg flex items-center justify-center">
-            <span className="text-white">🔗</span>
+          <div className="w-12 h-12 bg-pink-500 rounded-lg flex items-center justify-center">
+            <Link2 className="w-6 h-6 text-white" />
           </div>
           <div className="text-left">
-            <div className="font-medium text-gray-800">外链分析</div>
-            <div className="text-sm text-gray-500">分析页面外部链接</div>
+            <div className="font-medium text-gray-800">{t.linkAnalyzer}</div>
+            <div className="text-sm text-gray-500">{t.linkAnalyzerDesc}</div>
           </div>
         </button>
 
@@ -167,12 +169,12 @@ export default function Popup({ onAnalyzePage, onOptimizeText, onGenerateText, o
           }}
           className="w-full p-4 bg-cyan-50 hover:bg-cyan-100 rounded-lg transition-colors flex items-center gap-3"
         >
-          <div className="w-10 h-10 bg-cyan-500 rounded-lg flex items-center justify-center">
-            <span className="text-white">📋</span>
+          <div className="w-12 h-12 bg-cyan-500 rounded-lg flex items-center justify-center">
+            <ClipboardList className="w-6 h-6 text-white" />
           </div>
           <div className="text-left">
-            <div className="font-medium text-gray-800">页面信息</div>
-            <div className="text-sm text-gray-500">获取页面详细信息</div>
+            <div className="font-medium text-gray-800">{t.pageInfo}</div>
+            <div className="text-sm text-gray-500">{t.pageInfoDesc}</div>
           </div>
         </button>
 
@@ -186,8 +188,8 @@ export default function Popup({ onAnalyzePage, onOptimizeText, onGenerateText, o
           }}
           className="w-full p-4 bg-orange-50 hover:bg-orange-100 rounded-lg transition-colors flex items-center gap-3"
         >
-          <div className="w-10 h-10 bg-orange-500 rounded-lg flex items-center justify-center">
-            <span className="text-white">🕸️</span>
+          <div className="w-12 h-12 bg-orange-500 rounded-lg flex items-center justify-center">
+            <Globe className="w-6 h-6 text-white" />
           </div>
           <div className="text-left">
             <div className="font-medium text-gray-800">{t.contentExtractor}</div>
@@ -205,8 +207,8 @@ export default function Popup({ onAnalyzePage, onOptimizeText, onGenerateText, o
           }}
           className="w-full p-4 bg-red-50 hover:bg-red-100 rounded-lg transition-colors flex items-center gap-3"
         >
-          <div className="w-10 h-10 bg-red-500 rounded-lg flex items-center justify-center">
-            <span className="text-white">🎬</span>
+          <div className="w-12 h-12 bg-red-500 rounded-lg flex items-center justify-center">
+            <Zap className="w-6 h-6 text-white" />
           </div>
           <div className="text-left">
             <div className="font-medium text-gray-800">{t.videoSniffer}</div>
@@ -222,10 +224,10 @@ export default function Popup({ onAnalyzePage, onOptimizeText, onGenerateText, o
               onOpenSettings()
             }
           }}
-          className="w-full p-4 bg-cyan-50 hover:bg-cyan-100 rounded-lg transition-colors flex items-center gap-3"
+          className="w-full p-4 bg-indigo-50 hover:bg-indigo-100 rounded-lg transition-colors flex items-center gap-3"
         >
-          <div className="w-10 h-10 bg-cyan-500 rounded-lg flex items-center justify-center">
-            <span className="text-white">🔍</span>
+          <div className="w-12 h-12 bg-indigo-500 rounded-lg flex items-center justify-center">
+            <Search className="w-6 h-6 text-white" />
           </div>
           <div className="text-left">
             <div className="font-medium text-gray-800">{t.adminSniffer}</div>
@@ -243,8 +245,8 @@ export default function Popup({ onAnalyzePage, onOptimizeText, onGenerateText, o
           }}
           className="w-full p-4 bg-red-50 hover:bg-red-100 rounded-lg transition-colors flex items-center gap-3"
         >
-          <div className="w-10 h-10 bg-red-500 rounded-lg flex items-center justify-center">
-            <span className="text-white">🛡️</span>
+          <div className="w-12 h-12 bg-red-500 rounded-lg flex items-center justify-center">
+            <Shield className="w-6 h-6 text-white" />
           </div>
           <div className="text-left">
             <div className="font-medium text-gray-800">{t.securityAnalyzer}</div>
@@ -262,8 +264,8 @@ export default function Popup({ onAnalyzePage, onOptimizeText, onGenerateText, o
           }}
           className="w-full p-4 bg-orange-50 hover:bg-orange-100 rounded-lg transition-colors flex items-center gap-3"
         >
-          <div className="w-10 h-10 bg-orange-500 rounded-lg flex items-center justify-center">
-            <span className="text-white">🔓</span>
+          <div className="w-12 h-12 bg-orange-500 rounded-lg flex items-center justify-center">
+            <Lock className="w-6 h-6 text-white" />
           </div>
           <div className="text-left">
             <div className="font-medium text-gray-800">{t.urlDecoder}</div>
@@ -281,8 +283,8 @@ export default function Popup({ onAnalyzePage, onOptimizeText, onGenerateText, o
           }}
           className="w-full p-4 bg-teal-50 hover:bg-teal-100 rounded-lg transition-colors flex items-center gap-3"
         >
-          <div className="w-10 h-10 bg-teal-500 rounded-lg flex items-center justify-center">
-            <span className="text-white">📧</span>
+          <div className="w-12 h-12 bg-teal-500 rounded-lg flex items-center justify-center">
+            <Mail className="w-6 h-6 text-white" />
           </div>
           <div className="text-left">
             <div className="font-medium text-gray-800">{t.emailHeaderParser}</div>
@@ -300,8 +302,8 @@ export default function Popup({ onAnalyzePage, onOptimizeText, onGenerateText, o
           }}
           className="w-full p-4 bg-indigo-50 hover:bg-indigo-100 rounded-lg transition-colors flex items-center gap-3"
         >
-          <div className="w-10 h-10 bg-indigo-500 rounded-lg flex items-center justify-center">
-            <span className="text-white">🔍</span>
+          <div className="w-12 h-12 bg-indigo-500 rounded-lg flex items-center justify-center">
+            <Globe className="w-6 h-6 text-white" />
           </div>
           <div className="text-left">
             <div className="font-medium text-gray-800">{t.domainLookup}</div>
@@ -319,8 +321,8 @@ export default function Popup({ onAnalyzePage, onOptimizeText, onGenerateText, o
           }}
           className="w-full p-4 bg-teal-50 hover:bg-teal-100 rounded-lg transition-colors flex items-center gap-3"
         >
-          <div className="w-10 h-10 bg-teal-500 rounded-lg flex items-center justify-center">
-            <span className="text-white">📋</span>
+          <div className="w-12 h-12 bg-teal-500 rounded-lg flex items-center justify-center">
+            <Database className="w-6 h-6 text-white" />
           </div>
           <div className="text-left">
             <div className="font-medium text-gray-800">{t.whoisLookup}</div>
@@ -338,8 +340,8 @@ export default function Popup({ onAnalyzePage, onOptimizeText, onGenerateText, o
           }}
           className="w-full p-4 bg-amber-50 hover:bg-amber-100 rounded-lg transition-colors flex items-center gap-3"
         >
-          <div className="w-10 h-10 bg-amber-500 rounded-lg flex items-center justify-center">
-            <span className="text-white">📊</span>
+          <div className="w-12 h-12 bg-amber-500 rounded-lg flex items-center justify-center">
+            <BarChart3 className="w-6 h-6 text-white" />
           </div>
           <div className="text-left">
             <div className="font-medium text-gray-800">{t.dataParser}</div>

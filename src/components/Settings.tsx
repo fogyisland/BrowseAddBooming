@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react'
 import { useLanguage, Language } from '../i18n'
+import { ArrowLeft, Heart, Check, Plus, Trash2, Settings2, Globe, Upload, Copy } from 'lucide-react'
 
 interface SettingsProps {
   onBack: () => void
@@ -55,31 +56,27 @@ export default function Settings({ onBack }: SettingsProps) {
   const [saved, setSaved] = useState(false)
   const [expandedModelId, setExpandedModelId] = useState<string | null>('gpt-4o')
   const [iconPreview, setIconPreview] = useState<string>('')
+  const [showSponsor, setShowSponsor] = useState(false)
 
   const handleIconChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0]
     if (!file) return
 
-    // 验证文件类型
     if (!file.type.startsWith('image/')) {
       alert('请选择图片文件')
       return
     }
 
-    // 验证文件大小 (最大 200KB)
-    if (file.size > 200 * 1024) {
+    if (file.size > 200 * 102) {
       alert('图片大小不能超过200KB')
       return
     }
 
     try {
-      // 读取图片为 base64
       const reader = new FileReader()
       reader.onload = async (event) => {
         const base64 = event.target?.result as string
         setIconPreview(base64)
-
-        // 保存到存储
         await chrome.storage.local.set({ customIcon: base64 })
         alert('头像已更新，刷新扩展后生效')
       }
@@ -127,7 +124,7 @@ export default function Settings({ onBack }: SettingsProps) {
     const newId = `custom-${Date.now()}`
     const newModel: ModelConfig = {
       id: newId,
-      name: '新模型',
+      name: t.addModel,
       model: 'gpt-4o',
       endpoint: '',
       apiKey: '',
@@ -136,7 +133,7 @@ export default function Settings({ onBack }: SettingsProps) {
     setSettings(prev => ({
       ...prev,
       models: [...prev.models, newModel],
-      defaultModelId: newId // 自动选中新添加的模型
+      defaultModelId: newId
     }))
     setExpandedModelId(newId)
   }
@@ -167,21 +164,87 @@ export default function Settings({ onBack }: SettingsProps) {
 
   const currentModel = settings.models.find(m => m.id === expandedModelId)
 
+  const copyToClipboard = (text: string, label: string) => {
+    navigator.clipboard.writeText(text)
+    alert(`${label} ${t.addressCopied}`)
+  }
+
   return (
-    <div className="p-4 max-h-[500px] overflow-y-auto">
+    <div className="p-4 max-h-[600px] overflow-y-auto">
+      {/* 头部 */}
       <div className="flex items-center gap-3 mb-4">
         <button
           onClick={onBack}
           className="p-2 hover:bg-gray-100 rounded-lg"
         >
-          ←
+          <ArrowLeft className="w-6 h-6 text-gray-600" />
         </button>
+        <Settings2 className="w-6 h-6 text-gray-600" />
         <h1 className="text-lg font-semibold text-gray-800">{t.settings}</h1>
+        <button
+          onClick={() => setShowSponsor(!showSponsor)}
+          className="ml-auto flex items-center gap-1 text-xs px-2 py-1 bg-red-50 text-red-500 rounded hover:bg-red-100"
+        >
+          <Heart className="w-4 h-4 fill-current" />
+          <span>{t.sponsor}</span>
+        </button>
       </div>
 
+      {/* 赞助信息 */}
+      {showSponsor && (
+        <div className="mb-4 p-4 bg-gradient-to-r from-red-50 to-pink-50 rounded-lg border border-red-200">
+          <h3 className="font-medium text-red-700 mb-2">{t.sponsorTitle}</h3>
+          <p className="text-xs text-gray-600 mb-3">{t.sponsorSubtitle}</p>
+          <div className="space-y-2">
+            <div className="flex items-center gap-2">
+              <span className="flex items-center gap-1 text-xs bg-red-100 text-red-600 px-2 py-1 rounded">
+                <span className="font-bold">₮</span> {t.trc20}
+              </span>
+              <code className="text-xs flex-1 bg-white px-2 py-1 rounded border truncate font-mono">
+                TPyLfYoN2oXBHfJtdX6jwS2PXB8xkA5XHu
+              </code>
+              <button
+                onClick={() => copyToClipboard('TPyLfYoN2oXBHfJtdX6jwS2PXB8xkA5XHu', 'TRC20')}
+                className="flex items-center gap-1 text-xs px-2 py-1 bg-red-500 text-white rounded hover:bg-red-600"
+              >
+                <Copy className="w-3 h-3" />
+              </button>
+            </div>
+            <div className="flex items-center gap-2">
+              <span className="flex items-center gap-1 text-xs bg-blue-100 text-blue-600 px-2 py-1 rounded">
+                $ {t.paypal}
+              </span>
+              <code className="text-xs flex-1 bg-white px-2 py-1 rounded border truncate font-mono">
+                10853913@qq.com
+              </code>
+              <button
+                onClick={() => copyToClipboard('10853913@qq.com', 'PayPal')}
+                className="flex items-center gap-1 text-xs px-2 py-1 bg-blue-500 text-white rounded hover:bg-blue-600"
+              >
+                <Copy className="w-3 h-3" />
+              </button>
+            </div>
+            <div className="flex items-center gap-2">
+              <span className="flex items-center gap-1 text-xs bg-green-100 text-green-600 px-2 py-1 rounded">
+                <Globe className="w-3 h-3" /> {t.wechat}
+              </span>
+              <code className="text-xs flex-1 bg-white px-2 py-1 rounded border truncate font-mono">
+                xpcustomer
+              </code>
+              <button
+                onClick={() => copyToClipboard('xpcustomer', 'WeChat')}
+                className="flex items-center gap-1 text-xs px-2 py-1 bg-green-500 text-white rounded hover:bg-green-600"
+              >
+                <Copy className="w-3 h-3" />
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
       {/* 语言选择 */}
-      <div className="mb-4 p-3 bg-gray-50 rounded-lg">
-        <label className="block text-sm font-medium text-gray-700 mb-2">{t.language}</label>
+      <div className="mb-3 p-3 bg-gray-50 rounded-lg">
+        <label className="block text-xs font-medium text-gray-700 mb-2">{t.language}</label>
         <select
           value={language}
           onChange={(e) => setLanguage(e.target.value as Language)}
@@ -196,19 +259,19 @@ export default function Settings({ onBack }: SettingsProps) {
       </div>
 
       {/* 头像设置 */}
-      <div className="mb-4 p-3 bg-gray-50 rounded-lg">
-        <label className="block text-sm font-medium text-gray-700 mb-2">插件头像</label>
+      <div className="mb-3 p-3 bg-gray-50 rounded-lg">
         <div className="flex items-center gap-3">
-          <div className="w-12 h-12 bg-gradient-to-br from-blue-500 to-purple-600 rounded-lg flex items-center justify-center overflow-hidden">
+          <div className="w-12 h-12 bg-gradient-to-br from-pink-400 to-orange-400 rounded-full flex items-center justify-center overflow-hidden">
             {iconPreview ? (
               <img src={iconPreview} alt="Icon" className="w-full h-full object-cover" />
             ) : (
-              <span className="text-white text-lg">🤖</span>
+              <span className="text-[30px] leading-none">👶</span>
             )}
           </div>
           <div className="flex-1">
-            <label className="inline-flex items-center px-3 py-1.5 bg-blue-500 hover:bg-blue-600 text-white text-sm rounded-lg cursor-pointer transition-colors">
-              <span>更换头像</span>
+            <label className="inline-flex items-center gap-1 px-3 py-1.5 bg-blue-500 hover:bg-blue-600 text-white text-xs rounded-lg cursor-pointer transition-colors">
+              <Upload className="w-3 h-3" />
+              <span>{t.changeIcon}</span>
               <input
                 type="file"
                 accept="image/*"
@@ -216,128 +279,131 @@ export default function Settings({ onBack }: SettingsProps) {
                 className="hidden"
               />
             </label>
-            <p className="text-xs text-gray-500 mt-1">建议尺寸: 128x128，不超过200KB</p>
           </div>
         </div>
       </div>
 
-      <div className="space-y-4">
-        {/* 已配置的模型下拉选择 */}
-        <section>
-          <h2 className="text-sm font-medium text-gray-700 mb-3">{t.modelSettings}</h2>
-          <select
-            value={expandedModelId || ''}
-            onChange={(e) => handleModelSelect(e.target.value)}
-            className="w-full px-3 py-2 border border-gray-200 rounded-lg text-sm focus:outline-none focus:border-blue-500 bg-white"
+      {/* 模型选择 */}
+      <div className="mb-3">
+        <div className="flex items-center justify-between mb-2">
+          <h2 className="text-sm font-medium text-gray-700">{t.modelSettings}</h2>
+          <button
+            onClick={addModel}
+            className="flex items-center gap-1 text-xs px-2 py-1 bg-green-50 text-green-600 rounded hover:bg-green-100"
           >
-            {settings.models.map(model => (
-              <option key={model.id} value={model.id}>
-                {model.name} {model.id === settings.defaultModelId ? `(${t.defaultModel})` : ''}
-              </option>
-            ))}
-          </select>
-        </section>
+            <Plus className="w-3 h-3" />
+            <span>{t.addModel}</span>
+          </button>
+        </div>
+        <select
+          value={expandedModelId || ''}
+          onChange={(e) => handleModelSelect(e.target.value)}
+          className="w-full px-3 py-2 border border-gray-200 rounded-lg text-sm focus:outline-none focus:border-blue-500 bg-white"
+        >
+          {settings.models.map(model => (
+            <option key={model.id} value={model.id}>
+              {model.name} {model.id === settings.defaultModelId ? `(${t.defaultModel})` : ''}
+            </option>
+          ))}
+        </select>
+      </div>
 
-        {/* 当前选中模型的配置 */}
-        {currentModel && (
-          <section>
-            <h2 className="text-sm font-medium text-gray-700 mb-3">模型配置</h2>
-            <div className="p-3 bg-gray-50 rounded-lg border border-gray-200">
-              <div className="space-y-3">
-                <div>
-                  <label className="block text-xs text-gray-500 mb-1">模型名称</label>
-                  <input
-                    type="text"
-                    value={currentModel.name}
-                    onChange={(e) => updateModel(currentModel.id, 'name', e.target.value)}
-                    placeholder="模型名称"
-                    className="w-full px-3 py-2 border border-gray-200 rounded text-sm focus:outline-none focus:border-blue-500"
-                  />
-                </div>
+      {/* 模型配置 */}
+      {currentModel && (
+        <div className="mb-3 p-3 bg-gray-50 rounded-lg border border-gray-200">
+          <div className="space-y-3">
+            <div>
+              <label className="block text-xs text-gray-500 mb-1">{t.modelName}</label>
+              <input
+                type="text"
+                value={currentModel.name}
+                onChange={(e) => updateModel(currentModel.id, 'name', e.target.value)}
+                className="w-full px-3 py-2 border border-gray-200 rounded text-sm focus:outline-none focus:border-blue-500"
+              />
+            </div>
 
-                <div>
-                  <label className="block text-xs text-gray-500 mb-1">模型 (Model)</label>
-                  <input
-                    type="text"
-                    value={currentModel.model}
-                    onChange={(e) => updateModel(currentModel.id, 'model', e.target.value)}
-                    placeholder="gpt-4o"
-                    className="w-full px-3 py-2 border border-gray-200 rounded text-sm focus:outline-none focus:border-blue-500"
-                  />
-                </div>
+            <div>
+              <label className="block text-xs text-gray-500 mb-1">Model</label>
+              <input
+                type="text"
+                value={currentModel.model}
+                onChange={(e) => updateModel(currentModel.id, 'model', e.target.value)}
+                placeholder="gpt-4o"
+                className="w-full px-3 py-2 border border-gray-200 rounded text-sm focus:outline-none focus:border-blue-500"
+              />
+            </div>
 
-                <div>
-                  <label className="block text-xs text-gray-500 mb-1">API 端点</label>
-                  <input
-                    type="text"
-                    value={currentModel.endpoint}
-                    onChange={(e) => updateModel(currentModel.id, 'endpoint', e.target.value)}
-                    placeholder="https://api.example.com/v1/chat/completions"
-                    className="w-full px-3 py-2 border border-gray-200 rounded text-sm focus:outline-none focus:border-blue-500"
-                  />
-                </div>
+            <div>
+              <label className="block text-xs text-gray-500 mb-1">{t.modelEndpoint}</label>
+              <input
+                type="text"
+                value={currentModel.endpoint}
+                onChange={(e) => updateModel(currentModel.id, 'endpoint', e.target.value)}
+                className="w-full px-3 py-2 border border-gray-200 rounded text-sm focus:outline-none focus:border-blue-500"
+              />
+            </div>
 
-                <div className="grid grid-cols-2 gap-3">
-                  <div>
-                    <label className="block text-xs text-gray-500 mb-1">API Key</label>
-                    <input
-                      type="password"
-                      value={currentModel.apiKey}
-                      onChange={(e) => updateModel(currentModel.id, 'apiKey', e.target.value)}
-                      placeholder="sk-..."
-                      className="w-full px-3 py-2 border border-gray-200 rounded text-sm focus:outline-none focus:border-blue-500"
-                    />
-                  </div>
-                  <div>
-                    <label className="block text-xs text-gray-500 mb-1">认证方式</label>
-                    <select
-                      value={currentModel.authType}
-                      onChange={(e) => updateModel(currentModel.id, 'authType', e.target.value as ModelConfig['authType'])}
-                      className="w-full px-3 py-2 border border-gray-200 rounded text-sm focus:outline-none focus:border-blue-500"
-                    >
-                      <option value="Bearer">Bearer</option>
-                      <option value="ApiKey">ApiKey</option>
-                      <option value="Basic">Basic</option>
-                    </select>
-                  </div>
-                </div>
-
-                <div className="flex justify-between pt-2">
-                  <label className="flex items-center gap-2">
-                    <input
-                      type="checkbox"
-                      checked={currentModel.id === settings.defaultModelId}
-                      onChange={() => setSettings(prev => ({ ...prev, defaultModelId: currentModel.id }))}
-                      className="rounded"
-                    />
-                    <span className="text-xs text-gray-600">设为默认模型</span>
-                  </label>
-                  <button
-                    onClick={() => removeModel(currentModel.id)}
-                    className="text-xs text-red-500 hover:text-red-600"
-                  >
-                    删除模型
-                  </button>
-                </div>
+            <div className="grid grid-cols-2 gap-3">
+              <div>
+                <label className="block text-xs text-gray-500 mb-1">{t.apiKey}</label>
+                <input
+                  type="password"
+                  value={currentModel.apiKey}
+                  onChange={(e) => updateModel(currentModel.id, 'apiKey', e.target.value)}
+                  placeholder="sk-..."
+                  className="w-full px-3 py-2 border border-gray-200 rounded text-sm focus:outline-none focus:border-blue-500"
+                />
+              </div>
+              <div>
+                <label className="block text-xs text-gray-500 mb-1">{t.authType}</label>
+                <select
+                  value={currentModel.authType}
+                  onChange={(e) => updateModel(currentModel.id, 'authType', e.target.value as ModelConfig['authType'])}
+                  className="w-full px-3 py-2 border border-gray-200 rounded text-sm focus:outline-none focus:border-blue-500 bg-white"
+                >
+                  <option value="Bearer">Bearer</option>
+                  <option value="ApiKey">ApiKey</option>
+                  <option value="Basic">Basic</option>
+                </select>
               </div>
             </div>
-          </section>
-        )}
 
-        {/* 添加模型按钮 */}
-        <button
-          onClick={addModel}
-          className="w-full py-2 border border-dashed border-gray-300 text-gray-500 rounded-lg hover:border-gray-400 hover:text-gray-600 transition-colors"
-        >
-          + 添加新模型
-        </button>
+            <div className="flex justify-between items-center pt-2 border-t border-gray-200">
+              <label className="flex items-center gap-2">
+                <input
+                  type="checkbox"
+                  checked={currentModel.id === settings.defaultModelId}
+                  onChange={() => setSettings(prev => ({ ...prev, defaultModelId: currentModel.id }))}
+                  className="rounded"
+                />
+                <span className="text-xs text-gray-600">{t.defaultModel}</span>
+              </label>
+              {currentModel.id.startsWith('custom-') && (
+                <button
+                  onClick={() => removeModel(currentModel.id)}
+                  className="flex items-center gap-1 text-xs text-red-500 hover:text-red-600"
+                >
+                  <Trash2 className="w-3 h-3" />
+                  <span>{t.delete}</span>
+                </button>
+              )}
+            </div>
+          </div>
+        </div>
+      )}
 
-        <button
-          onClick={handleSave}
-          className="w-full py-2 bg-blue-500 hover:bg-blue-600 text-white rounded-lg transition-colors"
-        >
-          {saved ? '✓ 已保存' : '保存设置'}
-        </button>
+      {/* 保存按钮 */}
+      <button
+        onClick={handleSave}
+        className="w-full py-2 bg-blue-500 hover:bg-blue-600 text-white rounded-lg transition-colors mb-2 flex items-center justify-center gap-2"
+      >
+        {saved && <Check className="w-4 h-4" />}
+        <span>{saved ? t.success : t.save}</span>
+      </button>
+
+      {/* 版本信息 */}
+      <div className="text-center text-xs text-gray-400 mt-4 pt-4 border-t border-gray-100 flex items-center justify-center gap-1">
+        小铭助手 v1.0.1 · Made with <Heart className="w-4 h-4 text-red-400 fill-current" /> by fogyisland
       </div>
     </div>
   )
