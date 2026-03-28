@@ -64,7 +64,12 @@ export default function Popup({ onAnalyzePage, onOptimizeText, onGenerateText, o
           </div>
         </div>
         {/* 侧边栏开关 Toggle */}
-        <div className="flex items-center gap-3">
+        <div className="flex items-center gap-4">
+          {/* 快捷键提示 */}
+          <div className="hidden sm:flex items-center gap-2 text-xs text-gray-400">
+            <span className="px-1.5 py-0.5 bg-gray-100 rounded">Ctrl+Shift+A</span>
+            <span className="px-1.5 py-0.5 bg-gray-100 rounded">Ctrl+Shift+J</span>
+          </div>
           <button
             onClick={onOpenSettings}
             className="p-2 hover:bg-gray-100 rounded-lg transition-colors"
@@ -341,14 +346,6 @@ export default function Popup({ onAnalyzePage, onOptimizeText, onGenerateText, o
             <div className="text-sm text-gray-500">{t.dataParserDesc}</div>
           </div>
         </button>
-      </div>
-
-      <div className="mt-4 pt-4 border-t border-gray-200">
-        <div className="text-xs text-gray-500 mb-3">{t.shortcuts}</div>
-        <div className="flex flex-wrap gap-2">
-          <span className="px-2 py-1 bg-gray-100 rounded text-xs">Ctrl+Shift+A {t.analyzePage}</span>
-          <span className="px-2 py-1 bg-gray-100 rounded text-xs">Ctrl+Shift+J {t.optimizeText}</span>
-        </div>
       </div>
 
     </div>
