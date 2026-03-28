@@ -228,6 +228,8 @@ MIT License
 ## 联系方式
 
 - GitHub: https://github.com/fogyisland/BrowseAddBooming
+- 微信: xpcustomer
+- 邮箱: 10853913@qq.com
 
 ---
 
