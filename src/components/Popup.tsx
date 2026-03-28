@@ -64,24 +64,33 @@ export default function Popup({ onAnalyzePage, onOptimizeText, onGenerateText, o
           </div>
         </div>
         {/* 侧边栏开关 Toggle */}
-        <button
-          onClick={handleToggleSidePanel}
-          className="flex items-center gap-2 group"
-          title={sidePanelEnabled ? '关闭侧边栏' : '开启侧边栏'}
-        >
-          <span className="text-sm text-gray-500 group-hover:text-gray-700">侧边栏</span>
-          <div
-            className={`relative w-10 h-5 rounded-full transition-colors ${
-              sidePanelEnabled ? 'bg-blue-500' : 'bg-gray-300'
-            }`}
+        <div className="flex items-center gap-3">
+          <button
+            onClick={onOpenSettings}
+            className="p-2 hover:bg-gray-100 rounded-lg transition-colors"
+            title={t.settings}
           >
-            <span
-              className={`absolute top-0.5 left-0.5 w-4 h-4 bg-white rounded-full transition-transform shadow ${
-                sidePanelEnabled ? 'translate-x-5' : ''
+            <span className="text-gray-600">⚙️</span>
+          </button>
+          <button
+            onClick={handleToggleSidePanel}
+            className="flex items-center gap-2 group"
+            title={sidePanelEnabled ? '关闭侧边栏' : '开启侧边栏'}
+          >
+            <span className="text-sm text-gray-500 group-hover:text-gray-700">侧边栏</span>
+            <div
+              className={`relative w-10 h-5 rounded-full transition-colors ${
+                sidePanelEnabled ? 'bg-blue-500' : 'bg-gray-300'
               }`}
-            />
-          </div>
-        </button>
+            >
+              <span
+                className={`absolute top-0.5 left-0.5 w-4 h-4 bg-white rounded-full transition-transform shadow ${
+                  sidePanelEnabled ? 'translate-x-5' : ''
+                }`}
+              />
+            </div>
+          </button>
+        </div>
       </div>
 
       <div className="space-y-3">
@@ -342,15 +351,6 @@ export default function Popup({ onAnalyzePage, onOptimizeText, onGenerateText, o
         </div>
       </div>
 
-      <div className="mt-4">
-        <button
-          onClick={onOpenSettings}
-          className="w-full p-3 border border-gray-200 hover:bg-gray-50 rounded-lg transition-colors flex items-center justify-center gap-2"
-        >
-          <span>⚙️</span>
-          <span className="text-gray-700">{t.settings}</span>
-        </button>
-      </div>
     </div>
   )
 }
