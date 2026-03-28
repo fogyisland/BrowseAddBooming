@@ -79,10 +79,10 @@ export default function Popup({ onAnalyzePage, onOptimizeText, onGenerateText, o
           </button>
           <button
             onClick={handleToggleSidePanel}
-            className="flex items-center gap-2 group"
+            className="flex items-center gap-2 group px-3 py-1.5 rounded-lg hover:bg-gray-100 transition-colors"
             title={sidePanelEnabled ? '关闭侧边栏' : '开启侧边栏'}
           >
-            <span className="text-sm text-gray-500 group-hover:text-gray-700">侧边栏</span>
+            <span className="text-sm font-medium text-gray-600">{t.sidebarMode}</span>
             <div
               className={`relative w-10 h-5 rounded-full transition-colors ${
                 sidePanelEnabled ? 'bg-blue-500' : 'bg-gray-300'
